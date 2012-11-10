@@ -1,0 +1,7 @@
+h1 #{project.name}
+
+h2 Revisions
+  ul
+    each revision in revisions
+      li #{revision.name} 
+  a(href='revision/create') Create new revision

@@ -9,5 +9,7 @@
 	,"passport": "0.1.15"
 	,"passport-local" : "0.1.6"
 	,"forms": "0.1.2"
+	,"async": "0.1.22"
+	,"connect-mongo": "0.2.x"
   }
 }

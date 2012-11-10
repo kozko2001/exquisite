@@ -12,3 +12,9 @@ exports.login = forms.create({
 exports.project_new = forms.create({
 		project_name: fields.string({require: true})
 	});
+
+exports.revision = forms.create({
+	name: fields.string({require: true}),
+	description: fields.string({require: false}),
+	payload: fields.string()
+});

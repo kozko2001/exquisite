@@ -10,6 +10,7 @@ var express = require('express')
   , auth = require('./routes/auth')
   , mongoose = require('mongoose')
   , model = require('./routes/model'); 
+var MongoStore = require('connect-mongo')(express);
 
 var app = module.exports = express.createServer();
 var db  = mongoose.createConnection('localhost', 'exquisite');
@@ -38,12 +39,18 @@ var login_protect = function(req, res, next) {
 app.configure(function(){
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
-  app.use(express.bodyParser());
+  app.use(express.bodyParser({keepExteions: true, uploadDir: __dirname + "/public/uploads"}));
   app.use(express.methodOverride());
 
   // Passport
   app.use(express.cookieParser());
-  app.use(express.session({secret: "awesome-o"}));
+
+  app.use(express.session({
+	  secret: 'SECRET-kozko',
+	  store: new MongoStore({
+		  db: 'exquisite-session-store' 
+	  })
+  }));
   app.use(passport.initialize());
   app.use(passport.session());
 
@@ -65,7 +72,9 @@ app.get('/', routes.index);
 app.get('/dashboard', login_protect, routes.dashboard);
 app.get('/dashboard/project/create', login_protect, routes.project_new);
 app.post('/dashboard/project/create', login_protect, routes.project_new_post);
-
+app.get('/dashboard/project/:id', login_protect, routes.project_info);
+app.get('/dashboard/project/:id/revision/create', login_protect, routes.revision_create);
+app.post('/dashboard/project/:id/revision/create', login_protect, routes.revision_create_post);
 
 app.get('/login', routes.login);
 app.post('/login', passport.authenticate('local', {

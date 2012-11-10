@@ -14,9 +14,11 @@ var Project = new mongoose.Schema({
 });
 
 var Revision = new mongoose.Schema({
+	name: String,
 	filename: String,
 	description: String,
-	payload: String
+	payload: String,
+	project: mongoose.Schema.Types.ObjectId
 });
 
 var User = new mongoose.Schema({
