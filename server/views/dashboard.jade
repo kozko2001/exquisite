@@ -1,9 +1,9 @@
 h1= title
 
 h2 Projects
-  ul
-    each project in projects 
-      li
-        a(href='/dashboard/project/#{project._id}/') #{project.name}
+ul
+  each project in projects 
+    li
+      a(href='/dashboard/project/#{project._id}/') #{project.name}
 
-  a(href='/dashboard/project/create') Create
+a(href='/dashboard/project/create',class='btn') Create
