@@ -7,14 +7,24 @@ var express = require('express')
   , routes = require('./routes')
   , passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy
-  , auth = require('./routes/auth');
+  , auth = require('./routes/auth')
+  , mongoose = require('mongoose')
+  , model = require('./routes/model'); 
 
 var app = module.exports = express.createServer();
+var db  = mongoose.createConnection('localhost', 'exquisite');
 
 // Passport configuration 
 passport.use(new LocalStrategy( auth.auth ) );
 passport.serializeUser(auth.serializeUser);
 passport.deserializeUser(auth.deserializeUser);
+
+// MongoDb configuration
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() { 
+	model = model.createModels(db);
+	auth.setModel(model);
+});
 
 var login_protect = function(req, res, next) {
 	if( req.user )
@@ -58,6 +68,16 @@ app.post('/login', passport.authenticate('local', {
 		successRedirect: "/dashboard",
 		failureRedirect: "/login"}
 		));
+
+// DBEUG PURPOSE 
+app.get('/login/create', function(req, res) {
+	var k = new model.User();
+	k.username = "kozko2001";
+	k.hash     = model.User.generateHash("allocsoc");
+	k.save(function(err) { 
+		res.redirect('/login');
+	});
+});
 
 app.listen(3000, function(){
   console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
