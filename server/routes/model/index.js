@@ -39,10 +39,9 @@ User.methods.auth = function (username, password)
 
 exports.createModels = function(db) 
 {
-	var model = {};
-	model.Project  = db.model('Project', Project);
-	model.Revision = db.model('Revision', Revision);
-	model.User     = db.model('User', User);
+	exports.Project  = db.model('Project', Project);
+	exports.Revision = db.model('Revision', Revision);
+	exports.User     = db.model('User', User);
 
-	return model;
+	return exports;
 }

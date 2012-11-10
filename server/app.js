@@ -62,7 +62,11 @@ app.configure('production', function(){
 // Routes
 
 app.get('/', routes.index);
-app.get('/dashboard', login_protect, routes.index);
+app.get('/dashboard', login_protect, routes.dashboard);
+app.get('/dashboard/project/create', login_protect, routes.project_new);
+app.post('/dashboard/project/create', login_protect, routes.project_new_post);
+
+
 app.get('/login', routes.login);
 app.post('/login', passport.authenticate('local', {
 		successRedirect: "/dashboard",

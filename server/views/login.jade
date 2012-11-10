@@ -1,8 +1,4 @@
 h1 Login
 form(action='/login', method='POST')
-  .login_form
-    label Username
-    input(type='text', name='username')
-    label Password
-    input(type='password', name='password')
+  != form
   input(type='submit', value='Login')
