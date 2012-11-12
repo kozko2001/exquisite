@@ -1,7 +1,35 @@
 h1 #{project.name}
 
+if project.description
+  p #{project.description}
+
+p Creation date: #{project.date}
+a(href='edit', class='btn') Edit
+
+h2 Experiment configuration
+table(class='table')
+  thead
+    th Name
+    th Revision
+    th Probability
+    th Actions 
+  tbody
+    each experiment,i in project.experiments
+      tr
+        td #{experiment.name} 
+        td #{experiment.revision.name} 
+          small (#{experiment.revision._id})
+        td #{experiment.probability}
+        td
+            a(class='btn', href='experiment/#{experiment._id}/edit') Edit
+            a(class='btn', href='experiment/#{experiment._id}/remove') Remove 
+
+a(href='experiment/create', class='btn') Add 
+    
+
 h2 Revisions
 ul
   each revision in revisions
     li #{revision.name} 
+      small (#{revision._id})
 a(href='revision/create',class='btn') Create new revision

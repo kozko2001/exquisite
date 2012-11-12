@@ -10,11 +10,24 @@ exports.login = forms.create({
   });
 
 exports.project_new = forms.create({
-		project_name: fields.string({require: true})
-	});
+		name: fields.string({require: true}),
+		description: fields.string({widget: widgets.textarea({rows: 5, cols: 20}) })
+});
 
 exports.revision = forms.create({
 	name: fields.string({require: true}),
-	description: fields.string({require: false}),
+	description: fields.string({require: false, widget: widgets.textarea({rows: 5, cols: 20}) }),
 	payload: fields.string()
 });
+
+exports.experiment = function(revisions, value) {
+	return forms.create({
+		name: fields.string({require: true}),
+		revision: fields.string({
+			choices: revisions,
+			value: value,
+			widget: widgets.select()
+		}),
+		probability: fields.number({validators: [validators.min(0),  validators.max(100)]})
+	});
+}

@@ -1,16 +1,18 @@
 var  mongoose = require('mongoose')
     ,crypto   = require('crypto');
 
+var Experiment = new mongoose.Schema({
+	name: String,
+	revision: {type:mongoose.Schema.Types.ObjectId, ref: 'Revision'},
+	probability: Number, 
+	payload: String
+});
+
 var Project = new mongoose.Schema({
 	name: String,
 	description: String,
 	date: { type: Date, default: Date.now},
-	experiments: [
-	{
-		shortname: String,
-		revision: mongoose.Schema.Types.ObjectId,
-		probability: Number
-	}]
+	experiments: [{ type: mongoose.Schema.ObjectId, ref: 'Experiment' }]
 });
 
 var Revision = new mongoose.Schema({
@@ -44,6 +46,7 @@ exports.createModels = function(db)
 	exports.Project  = db.model('Project', Project);
 	exports.Revision = db.model('Revision', Revision);
 	exports.User     = db.model('User', User);
+	exports.Experiment = db.model('Experiment', Experiment);
 
 	return exports;
 }

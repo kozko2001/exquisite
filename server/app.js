@@ -72,8 +72,15 @@ app.get('/', routes.index);
 app.get('/dashboard', login_protect, routes.dashboard);
 app.get('/dashboard/project/create', login_protect, routes.project_new);
 app.post('/dashboard/project/create', login_protect, routes.project_new_post);
+app.get('/dashboard/project/:id/edit', login_protect, routes.project_new);
+app.post('/dashboard/project/:id/edit', login_protect, routes.project_new_post);
 app.get('/dashboard/project/:id', login_protect, routes.project_info);
 app.get('/dashboard/project/:id/revision/create', login_protect, routes.revision_create);
+app.get('/dashboard/project/:id/experiment/create', login_protect, routes.project_experiment_new);
+app.get('/dashboard/project/:id/experiment/:experiment_id/edit', login_protect, routes.project_experiment_new);
+app.get('/dashboard/project/:id/experiment/:experiment_id/remove', login_protect, routes.project_experiment_remove);
+app.post('/dashboard/project/:id/experiment/create', login_protect, routes.project_experiment_new_post);
+app.post('/dashboard/project/:id/experiment/:experiment_id/edit', login_protect, routes.project_experiment_new_post);
 app.post('/dashboard/project/:id/revision/create', login_protect, routes.revision_create_post);
 
 app.get('/login', routes.login);
